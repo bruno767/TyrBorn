@@ -14,12 +14,15 @@ public class SimpleController : MonoBehaviour {
 	private Vector3 m_AssociatedPlanetPosition;
 	private static Vector3 NullVector3 = new Vector3 (-9999, 9999, 9999);
 
+	private Animator m_anim;
+
 	// Use this for initialization
 	void Start () {
 		m_Rb = GetComponent<Rigidbody> ();
 		m_Cam = Camera.main.transform;
 		m_CharacterModel = GameObject.Find ("/Travelling/Player/Cube");
 		SetAssociatedPlanet(GameObject.Find ("/1Orbit/Earth"), false);
+		m_anim = GameObject.Find("main_caracter").GetComponent<Animator>();
 	}
 
 
@@ -56,7 +59,7 @@ public class SimpleController : MonoBehaviour {
 
 		float h = CrossPlatformInputManager.GetAxis ("Horizontal");
 		float v = CrossPlatformInputManager.GetAxis ("Vertical");
-		bool jump = CrossPlatformInputManager.GetButtonDown ("Jump");
+		bool jump = Input.GetKeyDown ("space");
 
 
 		Vector3 camForward = Vector3.ProjectOnPlane (m_Cam.forward, N).normalized;
@@ -68,6 +71,11 @@ public class SimpleController : MonoBehaviour {
 		float hProj = Vector3.Dot (move, myRight);
 		float turnAmount = amount (Vector3.Angle (myForward, move), hProj, forwardAmount);
 
+		if (forwardAmount > 0) {
+			m_anim.SetBool ("isRunning", true);
+		} else {
+			m_anim.SetBool ("isRunning", false);
+		}
 
 		transform.position += myForward * forwardAmount * 0.1f;
 
@@ -81,6 +89,7 @@ public class SimpleController : MonoBehaviour {
 
 
 		if (m_isGrounded && jump) {
+			Debug.Log ("a saltar");
 			m_Rb.velocity = 10 * N;
 		}
 
