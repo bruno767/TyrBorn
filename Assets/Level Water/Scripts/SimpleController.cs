@@ -95,7 +95,6 @@ public class SimpleController : MonoBehaviour {
 
 
 		if (m_isGrounded && jump) {
-			Debug.Log ("a saltar");
 			m_Rb.velocity = 10 * N;
 		}
 
