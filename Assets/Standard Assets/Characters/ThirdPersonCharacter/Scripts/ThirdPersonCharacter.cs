@@ -43,42 +43,83 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		}
 
 
-		public void Move(Vector3 move, bool crouch, bool jump)
+		public void Move(float moveMagnitude, float moveForwardAmount, float turnAmount, bool crouch, bool jump)
 		{
+			m_ForwardAmount = moveForwardAmount;
+			m_TurnAmount = turnAmount;
+
 
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
 			// direction.
-			if (move.magnitude > 1f) move.Normalize();
-			move = transform.InverseTransformDirection(move);
+			//if (move.magnitude > 1f) move.Normalize();
+			//move = transform.InverseTransformDirection(move);
 			CheckGroundStatus();
-			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-			m_TurnAmount = Mathf.Atan2(move.x, move.z);
-			m_ForwardAmount = move.z;
+			//move = Vector3.ProjectOnPlane(move, m_GroundNormal);
+
+			//Debug.DrawRay (transform.position, move, Color.red);
+
+
+			//m_TurnAmount = Mathf.Atan2(move.x, move.z);
+			//m_ForwardAmount = move.z;
+
+			//Vector3 characterForward = Vector3.ProjectOnPlane(transform.forward, m_GroundNormal);
+			//Vector3 characterRight = Vector3.Cross (m_GroundNormal, characterForward);
+			//Vector3 moveRightProj = Vector3.ProjectOnPlane(move.normalized, characterForward);
+			//Vector3 moveForwardProj = Vector3.ProjectOnPlane(move.normalized, characterRight);
+
+
+
+			//Debug.DrawRay (transform.position, move, Color.red);
+			//Debug.DrawRay (transform.position, moveRightProj, Color.yellow);
+			//Debug.DrawRay (transform.position, moveForwardProj, Color.green);
+
+			//Debug.DrawRay (transform.position, characterForward, Color.cyan);
+			//Debug.DrawRay (transform.position, characterRight, Color.cyan);
+			//Debug.DrawRay (transform.position, m_GroundNormal, Color.cyan);
+
+
+			//atan2(norm(cross(a,b)), dot(a,b))
+
+
+			//m_TurnAmount = Mathf.Atan2(moveRight.magnitude, moveForward.magnitude);
+			// float angleBetweenMoveAndForward = Vector3.Angle(characterForward, move);
+			//m_ForwardAmount = Vector3.Dot (move, characterForward.normalized);
+
+			//m_TurnAmount = Mathf.Atan2(characterRight, characterForward);
+
+			//m_TurnAmount = Mathf.Atan2 (Vector3.Cross (moveRightProj, moveForwardProj).magnitude, Vector3.Dot (moveRightProj, moveForwardProj));
+			//m_TurnAmount = 45; //Vector3.Angle(characterForward, move);
+
+			//string xpto = Time.time.ToString("R");
+
+			//Debug.Log (xpto + " >>>>>>>>>>>>>>>>>> " + m_TurnAmount);
+
+			//m_TurnAmount = 2 * Mathf.Atan( (moveRightProj*(moveForwardProj.magnitude) - moveForwardProj*(moveRightProj.magnitude)).magnitude / (moveRightProj * (moveForwardProj.magnitude) + moveForwardProj*(moveRightProj.magnitude )).magnitude);
 
 			ApplyExtraTurnRotation();
 
 			// control and velocity handling is different when grounded and airborne:
 			if (m_IsGrounded)
 			{
-				HandleGroundedMovement(crouch, jump);
+			//	HandleGroundedMovement(crouch, jump);
 			}
 			else
 			{
-				HandleAirborneMovement();
+			//	HandleAirborneMovement();
 			}
 
-			ScaleCapsuleForCrouching(crouch);
-			PreventStandingInLowHeadroom();
+			//ScaleCapsuleForCrouching(crouch);
+			//PreventStandingInLowHeadroom();
 
 			// send input and other state parameters to the animator
-			UpdateAnimator(move);
+			UpdateAnimator(moveMagnitude);
 		}
 
 
 		void ScaleCapsuleForCrouching(bool crouch)
 		{
-			if (m_IsGrounded && crouch)
+			/*if (m_IsGrounded && crouch)
 			{
 				if (m_Crouching) return;
 				m_Capsule.height = m_Capsule.height / 2f;
@@ -97,25 +138,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Capsule.height = m_CapsuleHeight;
 				m_Capsule.center = m_CapsuleCenter;
 				m_Crouching = false;
-			}
+			}*/
 		}
 
 		void PreventStandingInLowHeadroom()
 		{
 			// prevent standing up in crouch-only zones
-			if (!m_Crouching)
-			{
-				Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
-				float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
-				if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, ~0, QueryTriggerInteraction.Ignore))
-				{
-					m_Crouching = true;
-				}
-			}
+			//if (!m_Crouching)
+			//{
+			//	Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * k_Half, Vector3.up);
+			//	float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * k_Half;
+			//	if (Physics.SphereCast(crouchRay, m_Capsule.radius * k_Half, crouchRayLength, ~0, QueryTriggerInteraction.Ignore))
+			//	{
+			//		m_Crouching = true;
+			//	}
+			//}
 		}
 
 
-		void UpdateAnimator(Vector3 move)
+		void UpdateAnimator(float moveMagnitude)
 		{
 			// update the animator parameters
 			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
@@ -124,7 +165,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Animator.SetBool("OnGround", m_IsGrounded);
 			if (!m_IsGrounded)
 			{
-				m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
+				//m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
 			}
 
 			// calculate which leg is behind, so as to leave that leg trailing in the jump animation
@@ -136,12 +177,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			float jumpLeg = (runCycle < k_Half ? 1 : -1) * m_ForwardAmount;
 			if (m_IsGrounded)
 			{
-				m_Animator.SetFloat("JumpLeg", jumpLeg);
+				//m_Animator.SetFloat("JumpLeg", jumpLeg);
 			}
 
 			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
 			// which affects the movement speed because of the root motion.
-			if (m_IsGrounded && move.magnitude > 0)
+			if (m_IsGrounded && moveMagnitude > 0)
 			{
 				m_Animator.speed = m_AnimSpeedMultiplier;
 			}
@@ -156,20 +197,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void HandleAirborneMovement()
 		{
 			// apply extra gravity from multiplier:
-			Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
-			m_Rigidbody.AddForce(extraGravityForce);
+			//Vector3 extraGravityForce = (Physics.gravity * m_GravityMultiplier) - Physics.gravity;
+			//m_Rigidbody.AddForce(extraGravityForce);
 
-
-			//Vector3 gravity = 10 * (new Vector3 (0, 0, 0) - this.GetComponent<Transform> ().localPosition).normalized;
-			//transform.up = -gravity;
-			//m_Rigidbody.AddForce(gravity);
-
-			//Debug.Log (Vector3.up);
-			//Quaternion rotation = Quaternion.LookRotation (transform.localRotation.eulerAngles, -1*gravity);
-			//transform.localRotation = rotation;
-
-			m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
+			//m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
 		}
+
 
 		void HandleGroundedMovement(bool crouch, bool jump)
 		{
@@ -177,7 +210,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (jump && !crouch && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
 			{
 				// jump!
-				m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
+				//m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
 				m_IsGrounded = false;
 				m_Animator.applyRootMotion = false;
 				m_GroundCheckDistance = 0.1f;
@@ -188,7 +221,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		{
 			// help the character turn faster (this is in addition to root rotation in the animation)
 			float turnSpeed = Mathf.Lerp(m_StationaryTurnSpeed, m_MovingTurnSpeed, m_ForwardAmount);
-			transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+			//transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
+
+			GameObject planet = GameObject.Find ("/1Orbit/Sphere");
+			Vector3 gravity = (planet.transform. position - transform.position).normalized;
+
+			Vector3 rotation = -gravity * m_TurnAmount *  Time.deltaTime; //* m_TurnAmount * turnSpeed * Time.deltaTime;
+			transform.Rotate(rotation);
 		}
 
 
@@ -201,7 +240,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
 
 				// we preserve the existing y part of the current velocity.
-				v.y = m_Rigidbody.velocity.y;
+				//v.y = m_Rigidbody.velocity.y;
 				m_Rigidbody.velocity = v;
 			}
 		}
@@ -209,14 +248,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void CheckGroundStatus()
 		{
+			GameObject planet = GameObject.Find ("/1Orbit/Sphere");
+			Vector3 gravity = (planet.transform. position - transform.position).normalized;
+
+
 			RaycastHit hitInfo;
 #if UNITY_EDITOR
 			// helper to visualise the ground check ray in the scene view
-			Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
+			Debug.DrawLine(transform.position + (-gravity * 0.1f), transform.position + (-gravity * 0.1f) + (gravity * m_GroundCheckDistance));
 #endif
 			// 0.1f is a small offset to start the ray from inside the character
 			// it is also good to note that the transform position in the sample assets is at the base of the character
-			if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, m_GroundCheckDistance))
+			if (Physics.Raycast(transform.position + (-gravity * 0.1f), gravity, out hitInfo, m_GroundCheckDistance))
 			{
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
@@ -225,7 +268,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			else
 			{
 				m_IsGrounded = false;
-				m_GroundNormal = Vector3.up;
+				m_GroundNormal = -gravity;
 				m_Animator.applyRootMotion = false;
 			}
 		}
