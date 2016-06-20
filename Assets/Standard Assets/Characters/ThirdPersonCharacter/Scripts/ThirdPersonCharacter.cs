@@ -224,7 +224,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			//transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
 
 			GameObject planet = GameObject.Find ("/1Orbit/Sphere");
-			Vector3 gravity = (planet.transform. position - transform.position).normalized;
+			Vector3 gravity = planet == null ? new Vector3(0,-1,0) :(planet.transform. position - transform.position).normalized;
 
 			Vector3 rotation = -gravity * m_TurnAmount *  Time.deltaTime; //* m_TurnAmount * turnSpeed * Time.deltaTime;
 			transform.Rotate(rotation);
@@ -249,7 +249,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void CheckGroundStatus()
 		{
 			GameObject planet = GameObject.Find ("/1Orbit/Sphere");
-			Vector3 gravity = (planet.transform. position - transform.position).normalized;
+			Vector3 gravity = planet == null ? new Vector3(0, -1, 0):(planet.transform. position - transform.position).normalized;
 
 
 			RaycastHit hitInfo;

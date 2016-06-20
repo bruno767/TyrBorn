@@ -51,7 +51,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-			Vector3 dg = (planet.transform.position - transform.position).normalized;
+			
+			Vector3 dg = planet == null ? new Vector3(0,-1,0) : (planet.transform.position - transform.position).normalized;
 			Vector3 g = dg * 100;
 
 			transform.parent.up = -dg;
