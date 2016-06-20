@@ -25,7 +25,8 @@ public class InterPlanetaryTeleporter : MonoBehaviour {
 
 	void OnTriggerEnter (Collider collision) {
 		if (isEnabled()) {
-			m_Player.SetAssociatedPlanet (m_target, true);
+            GameObject.Find("Stars").GetComponent<StarsScript>().ResetStars();
+            m_Player.SetAssociatedPlanet (m_target, true);
 		}
 	}
 

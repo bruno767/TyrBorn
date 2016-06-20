@@ -25,7 +25,7 @@ public class StarsScript : MonoBehaviour {
 
     public void DecreaseStars()
     {
-        sprites[numberStars - 1].sprite = normal;
+        sprites[numberStars - 1].sprite = empty;
         numberStars--;
     }
 
