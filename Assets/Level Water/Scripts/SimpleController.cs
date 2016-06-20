@@ -20,7 +20,7 @@ public class SimpleController : MonoBehaviour {
 	void Start () {
 		m_Rb = GetComponent<Rigidbody> ();
 		m_Cam = Camera.main.transform;
-		m_CharacterModel = GameObject.Find ("/Travelling/Player/Cube");
+		m_CharacterModel = GameObject.Find ("main_caracter");
 		SetAssociatedPlanet(GameObject.Find ("/1Orbit/Earth"), false);
 		m_anim = GameObject.Find("main_caracter").GetComponent<Animator>();
 	}
@@ -37,9 +37,15 @@ public class SimpleController : MonoBehaviour {
 		if (m_AssociatedPlanetPosition != NullVector3) {
 			transform.position += m_AssociatedPlanet.transform.position - m_AssociatedPlanetPosition; 
 		}
-		m_AssociatedPlanetPosition = m_AssociatedPlanet.transform.position;
 
-		N = (transform.position - m_AssociatedPlanet.transform.position).normalized;
+		if (m_AssociatedPlanet != null) {
+			m_AssociatedPlanetPosition = m_AssociatedPlanet.transform.position;
+
+			N = (transform.position - m_AssociatedPlanet.transform.position).normalized;
+		} else {
+			m_AssociatedPlanetPosition = NullVector3;
+			N = new Vector3 (0, 1, 0);
+		}
 
 		if(m_ShootUp){
 			m_Rb.velocity  = 10*-N;

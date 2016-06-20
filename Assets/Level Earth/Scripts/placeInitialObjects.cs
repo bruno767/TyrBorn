@@ -23,7 +23,7 @@ public class placeInitialObjects : MonoBehaviour {
 		int x = 500;
 		int z = 500;
 
-		for (int i = 0; i < 3000; i += 1) {
+		for (int i = 0; i < 1000; i += 1) {
 			Vector3 vec = new Vector3 (Random.Range(5,x-5), Random.Range(-1f,0f), Random.Range(5,z-5));
 
 			int nextStone = Random.Range (0, 5);
