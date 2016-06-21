@@ -7,6 +7,7 @@ public class HeartsScript : MonoBehaviour {
 	public Sprite empty;
 	public Sprite half;
 	public Sprite normal;
+	private int m_lifeCounter = -1;
 
 	Image[] sprites;
 	PlayerController m_Player;
@@ -19,6 +20,11 @@ public class HeartsScript : MonoBehaviour {
 	}
 
 	public void Update(){
+		if (m_Player.m_lifeCounter == m_lifeCounter) {
+			return;
+		}
+		m_lifeCounter = m_Player.m_lifeCounter;
+
 		for(int i = 0; i < sprites.Length; i++)
 		{
 			if (2*i < m_Player.m_lifeCounter && 2*i + 1 < m_Player.m_lifeCounter) {
