@@ -60,7 +60,7 @@ public class placeInitialObjects : MonoBehaviour {
 		GameObject _t;
 
 		for (int i = 0; i < 20; i += 1) {
-			Vector3 vec = new Vector3 (Random.Range(5,x-5), 0, Random.Range(5,z-5));
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 0, Random.Range(100,z-100));
 
 			int nextAnimal = 0;//Random.Range (0, 5);
 
@@ -86,7 +86,7 @@ public class placeInitialObjects : MonoBehaviour {
 		GameObject _t;
 
 		for (int i = 0; i < 250; i += 1) {
-			Vector3 vec = new Vector3 (Random.Range(5,x-5), 0.1f, Random.Range(5,z-5));
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 0.1f, Random.Range(100,z-100));
 
 			_t = (GameObject) Instantiate (Monster, vec, validRotationAngle (false));
 			_t.transform.parent = GameObject.Find ("monsters").transform;
@@ -102,7 +102,7 @@ public class placeInitialObjects : MonoBehaviour {
 		GameObject _t;
 
 		for (int i = 0; i < 50; i += 1) {
-			Vector3 vec = new Vector3 (Random.Range(5,x-5), 1f, Random.Range(5,z-5));
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 1f, Random.Range(100,z-100));
 
 			_t = (GameObject) Instantiate (health, vec, validRotationAngle (false));
 			_t.transform.parent = GameObject.Find ("healths").transform;
@@ -117,7 +117,7 @@ public class placeInitialObjects : MonoBehaviour {
 		GameObject _t;
 
 		for (int i = 0; i < 7; i += 1) {
-			Vector3 vec = new Vector3 (Random.Range(5,x-5), 1, Random.Range(5,z-5));
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 1, Random.Range(100,z-100));
 
 			_t = (GameObject) Instantiate (soul, vec, validRotationAngle (false));
 			_t.transform.parent = GameObject.Find ("souls").transform;

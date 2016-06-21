@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 	private int health = 100;
 
 	private bool showDamage;
+	public AudioClip musicClip;
 
 	void Start(){
 		m_raysCounter = 0;
@@ -55,6 +56,9 @@ public class PlayerController : MonoBehaviour {
 			Destroy (col.gameObject);
 		} else if (col.gameObject.tag == "Soul") {
 			m_starsCounter++;
+
+			this.GetComponent<AudioSource> ().PlayOneShot (musicClip,0.7f);
+			Destroy (col.gameObject);
 		}
 	}
 

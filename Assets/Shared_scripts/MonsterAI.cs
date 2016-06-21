@@ -110,10 +110,9 @@ public class MonsterAI : MonoBehaviour {
 
 		float r_value = Random.Range (0f, 10f);
 
-		Debug.Log (r_value);
-		if (r_value >= 0 && r_value < 1)
+		if (r_value >= 0 && r_value < 3)
 			Instantiate (bonusHealth, this.gameObject.transform.position, Quaternion.Euler (0, 0, 0));
-		else if (r_value >= 1 && r_value < 2) {
+		else if (r_value >= 3 && r_value < 5) {
 			Instantiate (bonusEnergy, this.gameObject.transform.position, Quaternion.Euler (0, 0, 0));
 		}
 
