@@ -18,12 +18,14 @@ public class Gravity : MonoBehaviour {
 
 
 		//init children
-		foreach (Transform child in m_ParentPlanet.transform) {
+		foreach (Transform child in transform) {
 
 			Rigidbody childRb = child.GetComponent<Rigidbody> ();
 			if (childRb != null) {
 				childRb.useGravity = false;
-			} else if (child.gameObject.tag == "Suffers Gravity" /*&& child.GetComponent<Collider>() != null*/) { // fixes only some vertical misalignment
+			}
+
+			if (child.gameObject.tag == "Suffers Gravity" /*&& child.GetComponent<Collider>() != null*/) { // fixes only some vertical misalignment
 				Vector3 N = (child.position - m_ParentPlanet.transform.position).normalized;
 				child.up = N;
 				Debug.DrawRay (child.position, N);
