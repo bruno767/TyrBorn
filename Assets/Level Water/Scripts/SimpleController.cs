@@ -13,7 +13,7 @@ public class SimpleController : MonoBehaviour {
 	private bool m_ShootUp;
 	private Vector3 m_AssociatedPlanetPosition;
 	private static Vector3 NullVector3 = new Vector3 (-9999, 9999, 9999);
-
+	public float runMultiplier, gravityMultiplier, turnMultiplier;
 	private Animator m_anim;
 
 	// Use this for initialization
@@ -53,7 +53,7 @@ public class SimpleController : MonoBehaviour {
 			return;
 		}
 
-		Vector3 Fg = -N * 10 * m_Rb.mass; 
+		Vector3 Fg = -N * 10 * m_Rb.mass * gravityMultiplier; 
 
 		Vector3 myForward = Vector3.ProjectOnPlane (transform.forward, N);
 		Vector3 myRight = Vector3.Cross (myForward, -N); 
@@ -61,7 +61,7 @@ public class SimpleController : MonoBehaviour {
 
 		transform.rotation = Quaternion.LookRotation (myForward, N);
 		m_Rb.AddForce (Fg);
-		Debug.DrawRay (transform.position, Fg.normalized, Color.red);
+		//Debug.DrawRay (transform.position, Fg.normalized, Color.red);
 
 		float h = CrossPlatformInputManager.GetAxis ("Horizontal");
 		float v = CrossPlatformInputManager.GetAxis ("Vertical");
@@ -83,10 +83,10 @@ public class SimpleController : MonoBehaviour {
 			m_anim.SetBool ("isRunning", false);
 		}
 
-		transform.position += myForward * forwardAmount * 0.1f;
+		transform.position += myForward * forwardAmount * runMultiplier;
 
 
-		float rotationAngle = turnAmount * Time.deltaTime * 2f; 
+		float rotationAngle = turnAmount * Time.deltaTime * turnMultiplier; 
 
 		transform.RotateAround (this.transform.position, N, rotationAngle);
 

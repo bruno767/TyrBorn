@@ -25,18 +25,26 @@ public class MonsterAI : MonoBehaviour {
 
 		if (distance () < triggerDistance) {
 
-			anim.SetBool ("sawEnemy", true);
-
 			Vector3 targetDirection = (Player.transform.position - transform.position);
 			targetDirection.y = 0;
 
-			var rotation = Quaternion.LookRotation (targetDirection);
+			if (distance () < 1.2f) {
+				anim.SetBool ("sawEnemy", true);
+				anim.SetBool ("attackProximity", true);
+			} else {
+				anim.SetBool ("sawEnemy", true);
+				anim.SetBool ("attackProximity", false);
 
-			transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime * 2); 
-			Debug.DrawRay (transform.position, transform.forward);;
-			transform.position += transform.forward * Time.deltaTime * 2;
+				var rotation = Quaternion.LookRotation (targetDirection);
+
+				transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime*5); 
+
+				transform.position += transform.forward * Time.deltaTime;
+			}
+				
 		} else {
 			anim.SetBool ("sawEnemy", false);
+			anim.SetBool ("attackProximity", false);
 		}
 	}
 
