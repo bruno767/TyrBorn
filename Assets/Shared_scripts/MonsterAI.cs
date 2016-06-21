@@ -10,7 +10,11 @@ public class MonsterAI : MonoBehaviour {
 	[Header("Variables")]
 	[Range(5,100)]
 	public float triggerDistance;
+	public int health;
 
+	[Header("Bonus")]
+	public GameObject bonusHealth;
+	public GameObject bonusEnergy;
 
 	private Animator anim;
 	private Vector3 initialPosition;
@@ -23,11 +27,13 @@ public class MonsterAI : MonoBehaviour {
 		triggerDistance = 30;
 		initialPosition = transform.position;
 		goBack = false;
+		health = 100;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
+		checkDieStatus ();
 
 		if (distance (transform.position, initialPosition) > 40) {
 			goBack = true;
@@ -65,7 +71,7 @@ public class MonsterAI : MonoBehaviour {
 			Vector3 targetDirection = (Player.transform.position - transform.position);
 			targetDirection.y = 0;
 
-			if (distance (transform.position, Player.transform.position) < 1.2f) {
+			if (distance (transform.position, Player.transform.position) < 1.5f) {
 				anim.SetBool ("sawEnemy", true);
 				anim.SetBool ("attackProximity", true);
 			} else {
@@ -89,5 +95,35 @@ public class MonsterAI : MonoBehaviour {
 	float distance(Vector3 currentPos, Vector3 target){
 
 		return Mathf.Sqrt (Mathf.Pow(target.x - currentPos.x,2) + Mathf.Pow(target.y - currentPos.y,2) + Mathf.Pow(target.z - currentPos.z,2));
+	}
+
+	void checkDieStatus(){
+
+		if (health <= 0 && anim.GetBool ("dead") == false) {
+			anim.SetBool ("dead", true);
+			StartCoroutine(eliminateInstance ());
+		}
+	}
+
+	IEnumerator eliminateInstance(){
+		yield return new WaitForSeconds (5);
+
+		float r_value = Random.Range (0f, 10f);
+
+		Debug.Log (r_value);
+		if (r_value >= 0 && r_value < 1)
+			Instantiate (bonusHealth, this.gameObject.transform.position, Quaternion.Euler (0, 0, 0));
+		else if (r_value >= 1 && r_value < 2) {
+			Instantiate (bonusEnergy, this.gameObject.transform.position, Quaternion.Euler (0, 0, 0));
+		}
+
+		Destroy (this.gameObject);
+	}
+
+
+	void OnTriggerEnter(Collider col){
+		if (col.gameObject.name == "sword_epic") {
+			health -= 51;
+		}
 	}
 }
