@@ -10,11 +10,14 @@ public class placeInitialObjects : MonoBehaviour {
 
 	public GameObject Animal1;
 
+	public GameObject Monster;
+
 
 	// Use this for initialization
 	void Start () {
 		spawnStones ();
 		spawnAnimals ();
+		spawnMonster ();
 	}
 
 	void spawnStones () {
@@ -61,6 +64,20 @@ public class placeInitialObjects : MonoBehaviour {
 				Instantiate(stone4, vec, validRotationAngle (true));
 			}*/
 		}
+	}
+
+
+	void spawnMonster(){
+		// Map size
+		int x = 500;
+		int z = 500;
+
+		for (int i = 0; i < 500; i += 1) {
+			Vector3 vec = new Vector3 (Random.Range(5,x-5), 0.1f, Random.Range(5,z-5));
+
+			Instantiate (Monster, vec, validRotationAngle (false));
+		}
+
 	}
 
 	//Function that returns a valid Vector3 rotation
