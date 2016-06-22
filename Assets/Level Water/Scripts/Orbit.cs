@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Orbit : MonoBehaviour {
 
-	public Vector3 OrbitOrientation;
+	private Vector3 OrbitOrientation;
 	public Transform OrbitCenter;
 	public int AngularSpeed;
 	private static Vector3 NullVector3 = new Vector3 (-9999, 9999, 9999);
@@ -11,9 +11,10 @@ public class Orbit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (OrbitOrientation == Vector3.zero) {
+		/*if (OrbitOrientation == Vector3.zero) {
 			OrbitOrientation = Vector3.up;
-		}
+		}*/
+		OrbitOrientation = transform.up;
 		m_AssociatedPlanetPosition = NullVector3;
 	}
 	

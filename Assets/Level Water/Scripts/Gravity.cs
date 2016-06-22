@@ -13,7 +13,6 @@ public class Gravity : MonoBehaviour {
 		} else {
 			m_ParentPlanet = FindParentWithTag (this.gameObject, "Planet");
 		}
-
 		float parentPlanetRadius = m_ParentPlanet.GetComponent<Collider>().bounds.size.y / 2;
 
 
@@ -29,6 +28,7 @@ public class Gravity : MonoBehaviour {
 				Vector3 N = (child.position - m_ParentPlanet.transform.position).normalized;
 				child.up = N;
 				Debug.DrawRay (child.position, N);
+
 				//float childHeight = child.GetComponent<Collider>().bounds.size.y;
 				//child.position = m_ParentPlanet.transform.position + N * (parentPlanetRadius);			
 			}
@@ -38,7 +38,7 @@ public class Gravity : MonoBehaviour {
 
 	void FixedUpdate (){
 		foreach (Transform child in transform) {
-			if (child.gameObject.tag == "VerticallyAligned") {
+			if (child.gameObject.tag == "Suffers Gravity") {
 				Vector3 N = (child.position - m_ParentPlanet.transform.position).normalized;
 				Rigidbody childRb = child.GetComponent<Rigidbody> ();
 				if (childRb != null) {

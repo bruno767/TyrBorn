@@ -11,17 +11,19 @@ public class PickUpMovement : MonoBehaviour {
 	[Range(0,10)]
 	public float verticalVariance = 1f;
 	private float time = 0f;
-	private Vector3 mStartPosition;
+	private Vector3 mLastDelta;
 
 	void Start(){
-		mStartPosition = transform.position;
+		mLastDelta = new Vector3 (0f, 0f, 0f);
 	}
 
 	// Update is called once per frame
 	void Update () {
 		transform.RotateAround (transform.position, transform.up, angularVelocity * Time.deltaTime);
 		time += Time.deltaTime * verticalVelocity;
-		transform.position = mStartPosition + transform.up * Mathf.Cos (time) * verticalVariance;
+		Vector3 delta = transform.up * Mathf.Cos (time) * verticalVariance;
+		transform.position += mLastDelta - delta;
+		mLastDelta = delta;
 	}
 
 }

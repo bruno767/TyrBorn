@@ -40,7 +40,6 @@ public class SimpleController : MonoBehaviour {
 
 		if (m_AssociatedPlanet != null) {
 			m_AssociatedPlanetPosition = m_AssociatedPlanet.transform.position;
-
 			N = (transform.position - m_AssociatedPlanet.transform.position).normalized;
 		} else {
 			m_AssociatedPlanetPosition = NullVector3;
@@ -48,7 +47,7 @@ public class SimpleController : MonoBehaviour {
 		}
 
 		if(m_ShootUp){
-			m_Rb.velocity  = 10*-N;
+			m_Rb.velocity  = 30*-N;
 			transform.forward = -N;
 			return;
 		}
