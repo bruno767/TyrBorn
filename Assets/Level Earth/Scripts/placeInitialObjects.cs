@@ -12,12 +12,17 @@ public class placeInitialObjects : MonoBehaviour {
 
 	public GameObject Monster;
 
+	public GameObject health;
+
+	public GameObject soul;
 
 	// Use this for initialization
 	void Start () {
 		spawnStones ();
 		spawnAnimals ();
 		spawnMonster ();
+		spawnHealth ();
+		spawnSouls ();
 	}
 
 	void spawnStones () {
@@ -30,16 +35,19 @@ public class placeInitialObjects : MonoBehaviour {
 			Vector3 vec = new Vector3 (Random.Range(5,x-5), Random.Range(-1f,0f), Random.Range(5,z-5));
 
 			int nextStone = Random.Range (0, 5);
+			GameObject _t;
 
 			if (nextStone == 0) {
-				Instantiate (stone1, vec, validRotationAngle (false));
+				_t = (GameObject) Instantiate (stone1, vec, validRotationAngle (false));
 			} else if (nextStone == 1) {
-				Instantiate (stone2, vec, validRotationAngle (true));
+				_t = (GameObject) Instantiate (stone2, vec, validRotationAngle (true));
 			} else if (nextStone == 2) {
-				Instantiate (stone3, vec, validRotationAngle (true));
+				_t = (GameObject) Instantiate (stone3, vec, validRotationAngle (true));
 			} else {
-				Instantiate(stone4, vec, validRotationAngle (true));
+				_t = (GameObject) Instantiate(stone4, vec, validRotationAngle (true));
 			}
+
+			_t.transform.parent = GameObject.Find ("stones").transform;
 		}
 	}
 
@@ -49,20 +57,23 @@ public class placeInitialObjects : MonoBehaviour {
 		int x = 500;
 		int z = 500;
 
+		GameObject _t;
+
 		for (int i = 0; i < 20; i += 1) {
-			Vector3 vec = new Vector3 (Random.Range(5,x-5), 0, Random.Range(5,z-5));
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 0, Random.Range(100,z-100));
 
 			int nextAnimal = 0;//Random.Range (0, 5);
 
-			if (nextAnimal == 0) {
-				Instantiate (Animal1, vec, validRotationAngle (true));
-			} /*else if (nextAnimal == 1) {
+			//if (nextAnimal == 0) {
+				_t = (GameObject) Instantiate (Animal1, vec, validRotationAngle (true));
+			/*} else if (nextAnimal == 1) {
 				Instantiate (stone2, vec, validRotationAngle (true));
 			} else if (nextAnimal == 2) {
 				Instantiate (stone3, vec, validRotationAngle (true));
 			} else {
 				Instantiate(stone4, vec, validRotationAngle (true));
 			}*/
+			_t.transform.parent = GameObject.Find ("animals").transform;
 		}
 	}
 
@@ -72,12 +83,45 @@ public class placeInitialObjects : MonoBehaviour {
 		int x = 500;
 		int z = 500;
 
-		for (int i = 0; i < 500; i += 1) {
-			Vector3 vec = new Vector3 (Random.Range(5,x-5), 0.1f, Random.Range(5,z-5));
+		GameObject _t;
 
-			Instantiate (Monster, vec, validRotationAngle (false));
+		for (int i = 0; i < 250; i += 1) {
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 0.1f, Random.Range(100,z-100));
+
+			_t = (GameObject) Instantiate (Monster, vec, validRotationAngle (false));
+			_t.transform.parent = GameObject.Find ("monsters").transform;
 		}
 
+	}
+
+	void spawnHealth(){
+		// Map size
+		int x = 500;
+		int z = 500;
+
+		GameObject _t;
+
+		for (int i = 0; i < 50; i += 1) {
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 1f, Random.Range(100,z-100));
+
+			_t = (GameObject) Instantiate (health, vec, validRotationAngle (false));
+			_t.transform.parent = GameObject.Find ("healths").transform;
+		}
+	}
+
+	void spawnSouls(){
+		// Map size
+		int x = 500;
+		int z = 500;
+
+		GameObject _t;
+
+		for (int i = 0; i < 7; i += 1) {
+			Vector3 vec = new Vector3 (Random.Range(100,x-100), 1, Random.Range(100,z-100));
+
+			_t = (GameObject) Instantiate (soul, vec, validRotationAngle (false));
+			_t.transform.parent = GameObject.Find ("souls").transform;
+		}
 	}
 
 	//Function that returns a valid Vector3 rotation
