@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LoadNewScene : MonoBehaviour {
 
@@ -32,7 +33,9 @@ public class LoadNewScene : MonoBehaviour {
 			}
 
 			//yield return new WaitForSeconds (5);
-			Application.LoadLevel("Scenes/WaterLevel");
+			//Application.LoadLevel("Scenes/WaterLevel");
+            SceneManager.LoadScene("WaterLevel");
+
 		}
 	}
 

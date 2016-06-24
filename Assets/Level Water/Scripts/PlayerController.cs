@@ -14,15 +14,21 @@ public class PlayerController : MonoBehaviour {
 	private int health = 100;
 
 	private bool showDamage;
-	public AudioClip musicClip;
+    private AudioSource audioSource;
 
-	void Start(){
+	public AudioClip musicClip;
+    public AudioClip monsterhitClip;
+    public AudioClip monsterDeadClip;
+
+    void Start(){
 		m_raysCounter = 0;
 		m_starsCounter = 0;
 		m_lifeCounter = 8;
 
 		anim = GameObject.Find ("main_caracter").GetComponent<Animator> ();
-	}
+        audioSource = GetComponent<AudioSource>();
+
+    }
 		
 
 	void Update(){
@@ -40,8 +46,15 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter(Collider col){
 
 		if (col.gameObject.name == "RighHand" || col.gameObject.name == "LeftHand") {
-			if (col.gameObject.GetComponentInParent<Animator> ().GetCurrentAnimatorStateInfo (0).IsName ("Attack"))
-				health -= 5;
+			if (col.gameObject.GetComponentInParent<Animator> ().GetCurrentAnimatorStateInfo (0).IsName("Attack"))
+            {
+                audioSource.PlayOneShot(monsterhitClip, 0.04f);
+                health -= 5;
+            } else if (col.gameObject.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+            {
+                audioSource.PlayOneShot(monsterDeadClip, 0.04f);
+            }
+				
 		} else if (col.gameObject.tag == "Hearth") {
 
 			if (health + 20 >= 100) {
@@ -57,7 +70,7 @@ public class PlayerController : MonoBehaviour {
 		} else if (col.gameObject.tag == "Soul") {
 			m_starsCounter++;
 
-			this.GetComponent<AudioSource> ().PlayOneShot (musicClip,0.7f);
+            audioSource.PlayOneShot (musicClip,0.04f);
 			Destroy (col.gameObject);
 		}
 	}

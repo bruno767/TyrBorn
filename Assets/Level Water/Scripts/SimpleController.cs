@@ -15,9 +15,10 @@ public class SimpleController : MonoBehaviour {
 	private static Vector3 NullVector3 = new Vector3 (-9999, 9999, 9999);
 	public float runMultiplier, gravityMultiplier, turnMultiplier;
 	private Animator m_anim;
+    public GameObject m_footstepsSoundSource;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		m_Rb = GetComponent<Rigidbody> ();
 		m_Cam = Camera.main.transform;
 		m_CharacterModel = GameObject.Find ("main_caracter");
@@ -78,9 +79,14 @@ public class SimpleController : MonoBehaviour {
 
 		if (forwardAmount > 0) {
 			m_anim.SetBool ("isRunning", true);
-		} else {
+            if(m_isGrounded)
+                m_footstepsSoundSource.GetComponent<FootstepsSoundScript>().StartWalking();
+            else
+                m_footstepsSoundSource.GetComponent<FootstepsSoundScript>().StopWalking();
+        } else {
 			m_anim.SetBool ("isRunning", false);
-		}
+            m_footstepsSoundSource.GetComponent<FootstepsSoundScript>().StopWalking();
+        }
 
 		transform.position += myForward * forwardAmount * runMultiplier;
 

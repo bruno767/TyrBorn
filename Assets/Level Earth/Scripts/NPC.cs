@@ -29,12 +29,21 @@ public class NPC : MonoBehaviour {
 	private bool npcAlreadyFinishedTalking, showDefaultMessage;
 	private bool talking ;
 
-	// Use this for initialization
-	void Start () {
+    private AudioSource audioSource;
+
+    public AudioClip[] player_clips;
+    public AudioClip[] npc_clips;
+
+    bool waitingToTalk;
+
+    // Use this for initialization
+    void Start () {
 		showDefaultMessage = false;
 		npcAlreadyFinishedTalking = false;
 		talkingIndex = new int[2] { 0, 0 };
-	}
+        audioSource = GetComponent<AudioSource>();
+        waitingToTalk = false;
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -46,7 +55,8 @@ public class NPC : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.U)) {
 				talkingIndex [talkingPerson] += 1;
 				talkingPerson = talkingPerson == 0 ? 1 : 0;
-			}
+                waitingToTalk = false;
+            }
 
 			if (talkingIndex [0] >= NpcTalks.Length && talkingIndex [1] >= UserTalks.Length) {
 				talking = false;
@@ -77,8 +87,13 @@ public class NPC : MonoBehaviour {
 		if (talking) {
 			string text = talkingPerson == 0 ? NpcTalks [talkingIndex [0]] : UserTalks [talkingIndex [1]];
 
-			GUI.Label (new Rect (Screen.width / 2, Screen.height / 2, 200f, 200f), text);
-		} else if (showDefaultMessage) {
+            GUI.Label (new Rect (Screen.width / 2, Screen.height / 2, 200f, 200f), text);
+            if (!waitingToTalk)
+            {
+                audioSource.PlayOneShot(talkingPerson == 0 ? npc_clips[talkingIndex[0]] : player_clips[talkingIndex[1]]);
+                waitingToTalk = true;
+            }
+        } else if (showDefaultMessage) {
 			
 			GUI.Label (new Rect (Screen.width / 2, Screen.height / 2, 200f, 200f), IdleNPCTalks[0]);
 		}
