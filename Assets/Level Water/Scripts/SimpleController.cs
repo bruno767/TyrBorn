@@ -35,7 +35,7 @@ public class SimpleController : MonoBehaviour {
 
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (m_AssociatedPlanetPosition != NullVector3) {
+		if (m_AssociatedPlanet != null && m_AssociatedPlanetPosition != NullVector3) {
 			transform.position += m_AssociatedPlanet.transform.position - m_AssociatedPlanetPosition; 
 		}
 
