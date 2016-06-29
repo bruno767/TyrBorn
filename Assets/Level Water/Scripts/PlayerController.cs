@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
 	public int m_lifeCounter;
 
 	private Animator anim;
-	private int health = 100;
+	public int health = 100;
 
 	private bool showDamage;
     private AudioSource audioSource;

@@ -16,29 +16,32 @@ public class SimpleController : MonoBehaviour {
 	public float runMultiplier, gravityMultiplier, turnMultiplier;
 	private Animator m_anim;
     public GameObject m_footstepsSoundSource;
+	public GameObject m_intialAssociatedPlanet;
 
     // Use this for initialization
     void Start () {
 		m_Rb = GetComponent<Rigidbody> ();
 		m_Cam = Camera.main.transform;
 		m_CharacterModel = GameObject.Find ("main_caracter");
-		SetAssociatedPlanet(GameObject.Find ("/1Orbit/Earth"), false);
+		SetAssociatedPlanet(m_intialAssociatedPlanet, false);
 		m_anim = GameObject.Find("main_caracter").GetComponent<Animator>();
 	}
 
 
-	public void SetAssociatedPlanet(GameObject planet, bool shootUp){
+	public void SetAssociatedPlanet(GameObject planet, bool shootUp = false){
 		m_AssociatedPlanetPosition = NullVector3;
 		m_AssociatedPlanet = planet;
 		m_ShootUp = shootUp;
 	}
 
-	// Update is called once per frame
-	void FixedUpdate () {
+
+	void Gravity() {
+		// ajusts its position with the center orbit planet
 		if (m_AssociatedPlanet != null && m_AssociatedPlanetPosition != NullVector3) {
 			transform.position += m_AssociatedPlanet.transform.position - m_AssociatedPlanetPosition; 
 		}
 
+		// calculates normal and saves associated planet position
 		if (m_AssociatedPlanet != null) {
 			m_AssociatedPlanetPosition = m_AssociatedPlanet.transform.position;
 			N = (transform.position - m_AssociatedPlanet.transform.position).normalized;
@@ -47,20 +50,36 @@ public class SimpleController : MonoBehaviour {
 			N = new Vector3 (0, 1, 0);
 		}
 
+		Vector3 Fg = -N * 10 * m_Rb.mass * gravityMultiplier; 
+
+		Vector3 myNewForward = Vector3.ProjectOnPlane (transform.forward, N);
+		Vector3.ProjectOnPlane (transform.forward, N);
+
+		transform.rotation = Quaternion.LookRotation (myNewForward, N);
+		m_Rb.AddForce (Fg);
+	}
+
+	void Fly(){
+		
 		if(m_ShootUp){
 			m_Rb.velocity  = 30*-N;
 			transform.forward = -N;
 			return;
 		}
 
-		Vector3 Fg = -N * 10 * m_Rb.mass * gravityMultiplier; 
+	}
 
-		Vector3 myForward = Vector3.ProjectOnPlane (transform.forward, N);
-		Vector3 myRight = Vector3.Cross (myForward, -N); 
-		Vector3.ProjectOnPlane (transform.forward, N);
+	// Update is called once per frame
+	void FixedUpdate () {
+		CheckGroundStatus ();
+		Gravity ();
+		Fly ();
 
-		transform.rotation = Quaternion.LookRotation (myForward, N);
-		m_Rb.AddForce (Fg);
+
+		Vector3 myForward = transform.forward;
+		Vector3 myRight = transform.right;
+
+
 		//Debug.DrawRay (transform.position, Fg.normalized, Color.red);
 
 		float h = CrossPlatformInputManager.GetAxis ("Horizontal");
@@ -95,7 +114,6 @@ public class SimpleController : MonoBehaviour {
 
 		transform.RotateAround (this.transform.position, N, rotationAngle);
 
-		CheckGroundStatus ();
 
 
 
@@ -103,13 +121,13 @@ public class SimpleController : MonoBehaviour {
 			m_Rb.velocity = 10 * N;
 		}
 
-
+		/* 
 		m_CharacterModel.transform.rotation = Quaternion.LookRotation (myForward, N);
 
 		if (forwardAmount > 0.5f && (m_isGrounded && !jump)) {
 			m_CharacterModel.transform.RotateAround (m_CharacterModel.transform.position, m_CharacterModel.transform.right, 30);
 		}
-
+		*/
 		//if(h != 0 || v != 0)
 		//	transform.rotation = Quaternion.LookRotation(move, N);
 
