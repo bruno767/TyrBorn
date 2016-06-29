@@ -26,10 +26,6 @@ public class InterPlanetaryTeleporter : Transporter {
 		}
 	}
 
-
-
-
-
 	void OnTriggerEnter (Collider collision) {
 		if (m_PlayerController.m_starsCounter >= m_numberOfStars) {
 			transport ();

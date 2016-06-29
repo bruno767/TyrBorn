@@ -38,7 +38,7 @@ public class LunarTransporter : Transporter {
 		return distance <= m_maxDistance;
 	}
 
-	void OnTriggerEnter (Collider collision) {
+	void OnCollisionEnter (Collision collision) {
 		if (isReady() && m_PlayerController.m_raysCounter >= m_numberOfRays) {
 			transport ();
 			m_PlayerController.m_raysCounter -= m_numberOfRays;

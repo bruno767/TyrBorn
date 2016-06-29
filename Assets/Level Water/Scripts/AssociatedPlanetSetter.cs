@@ -5,7 +5,7 @@ public class AssociatedPlanetSetter : MonoBehaviour {
 
 	private SimpleController m_Player;
 	void Start(){
-		m_Player = GameObject.Find ("/Travelling/Player").GetComponent<SimpleController>();
+		m_Player = GameObject.Find ("Player").GetComponent<SimpleController>();
 	}
 
 	// Use this for initialization
