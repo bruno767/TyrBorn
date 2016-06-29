@@ -13,6 +13,8 @@ public class randomMoves : MonoBehaviour {
 	public float velocity = 1f;
 	[Range(0,30)]
 	public float maxDistance = 1f;
+	public int minimum_star = 0;
+	public int minimum_rays = 0;
 
 
 	private Vector3 initialPos;
@@ -27,19 +29,23 @@ public class randomMoves : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (distance (initialPos, transform.position) < 1) {
-			onSpot = true;
-		}
+		if (GameObject.Find ("Player").GetComponent<PlayerController> ().m_starsCounter >= minimum_star &&
+		    GameObject.Find ("Player").GetComponent<PlayerController> ().m_raysCounter >= minimum_rays) {
 
-		if (vertical) {
-			this.transform.position += new Vector3 (0, velocity * Time.deltaTime, 0);
-		} else {
-			this.transform.position += new Vector3 (0, 0, velocity * Time.deltaTime);
-		}
+			if (distance (initialPos, transform.position) < 1) {
+				onSpot = true;
+			}
 
-		if (onSpot && distance (transform.position, initialPos) > maxDistance) {
-			velocity *= -1;
-			onSpot = false;
+			if (vertical) {
+				this.transform.position += new Vector3 (0, velocity * Time.deltaTime, 0);
+			} else {
+				this.transform.position += new Vector3 (0, 0, velocity * Time.deltaTime);
+			}
+
+			if (onSpot && distance (transform.position, initialPos) > maxDistance) {
+				velocity *= -1;
+				onSpot = false;
+			}
 		}
 	
 	}
