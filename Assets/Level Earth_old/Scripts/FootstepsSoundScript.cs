@@ -44,9 +44,11 @@ public class FootstepsSoundScript : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         while (walking)
         {
-            audioSource.clip = clips[Random.Range(0, clips.Length)];
-            audioSource.Play();
-            yield return new WaitForSeconds(0.24f);
+			if (clips.Length > 0) {
+				audioSource.clip = clips [Random.Range (0, clips.Length)];
+				audioSource.Play ();
+				yield return new WaitForSeconds (0.24f);
+			}
         }
         
     }

@@ -15,18 +15,13 @@ public class GameCamera : MonoBehaviour {
 		m_Player = GameObject.Find ("Player");
 		m_Camera = GetComponent<Camera> ();
 
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
 
-		float axisY = Input.GetAxis ("Mouse Y");
-		float axisX =   Input.GetAxis ("Mouse X");
-
+		float axisY = 0;//Input.GetAxis ("Mouse Y");
+		float axisX =  0;//Input.GetAxis ("Mouse X");
 
 		// camera at
 		Vector3 cameraPosition = m_Player.transform.position;
