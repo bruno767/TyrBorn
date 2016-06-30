@@ -9,9 +9,9 @@ public class randomMoves : MonoBehaviour {
 
 	[Header("Parameters",order=1)]
 	[Tooltip("Tweak parameters")]
-	[Range(0,10)]
-	public float velocity = 1f;
-	[Range(0,30)]
+	[Range(0,300)]
+	public float velocity = 100f;
+	[Range(0,1000)]
 	public float maxDistance = 1f;
 	public int minimum_star = 0;
 	public int minimum_rays = 0;

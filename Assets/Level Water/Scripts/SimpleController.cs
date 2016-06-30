@@ -63,5 +63,27 @@ public class SimpleController : MovementController {
 
 
 
+<<<<<<< HEAD
+=======
+		RaycastHit hitInfo;
+		#if UNITY_EDITOR
+		// helper to visualise the ground check ray in the scene view
+		Debug.DrawLine(transform.position + (N * 0.1f), transform.position + (N * 0.1f) + (-N * 0.5f), Color.red);
+		#endif
+		// 0.1f is a small offset to start the ray from inside the character
+		// it is also good to note that the transform position in the sample assets is at the base of the character
+		if (Physics.Raycast(transform.position + (N * 0.1f), -N, out hitInfo, 0.5f))
+		{
+			//m_GroundNormal = hitInfo.normal;
+			m_isGrounded = true;
+			//m_Animator.applyRootMotion = true;
+		}
+		else
+		{
+			m_isGrounded = false;
+			//m_GroundNormal = -gravity;
+			//m_Animator.applyRootMotion = false;
+		}
+>>>>>>> 9c034a5e673b10c83f5ef254d351139ac912e3fe
 
 }
