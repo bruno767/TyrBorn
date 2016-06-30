@@ -53,30 +53,30 @@ public class CheatWaterLvl : MonoBehaviour {
 		GameObject player = GameObject.Find ("Player");
 	
 		switch (args[0]) {
-		case "goearth":
+			case "earth":
 					GameObject earth = GameObject.Find ("Earth");
 					player.transform.position = new Vector3(378.6f,21.96f, 177.99f);
 					player.GetComponent<SimpleController>().SetAssociatedPlanet(earth, false);
 					break;
 
-			case "gomars":
+			case "mars":
 					GameObject mars = GameObject.Find ("Mars");
 					player.transform.position = new Vector3(261.27f,20.3f, 117.5f);
 					player.GetComponent<SimpleController>().SetAssociatedPlanet(mars, false);
 					break;
 
-			case "gojupiter":
+			case "jupiter":
 					GameObject jupiter = GameObject.Find ("Jupiter");
 					player.transform.position = new Vector3(78.6f,21.95f, 105.5f);
 					player.GetComponent<SimpleController>().SetAssociatedPlanet(jupiter, false);
 					break;
-			case "gosaturn":				
+			case "saturn":				
 					GameObject saturn = GameObject.Find ("Jupiter");
 					player.transform.position = new Vector3(60f, 40f, 80f);
 					player.GetComponent<SimpleController>().SetAssociatedPlanet(saturn, false);
 					break;
 
-			case "goisland":
+			case "island":
 					player.transform.position = new Vector3(-220f,190f, -40f);
 					player.GetComponent<SimpleController>().SetAssociatedPlanet(null, false);
 					break;

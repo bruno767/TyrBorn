@@ -9,7 +9,7 @@ public abstract class MovementController : MonoBehaviour {
 	private bool m_isGrounded;
 	protected Vector3 N;
 	private Rigidbody m_Rb;
-	public float runMultiplier, gravityMultiplier, turnMultiplier;
+	public float runMultiplier, gravityMultiplier, turnMultiplier, turnAirMultiplier;
 	public GameObject m_intialAssociatedPlanet;
 	private Transform m_Cam;
 
@@ -45,13 +45,14 @@ public abstract class MovementController : MonoBehaviour {
 
 		transform.rotation = Quaternion.LookRotation (myNewForward, N);
 		m_Rb.AddForce (Fg);
+
 	}
 
 	void Fly(){
 
 		if(m_ShootUp){
-			m_Rb.velocity  = 30*-N;
 			transform.forward = -N;
+			m_Rb.velocity  = 30*-N;
 			return;
 		}
 
@@ -89,8 +90,7 @@ public abstract class MovementController : MonoBehaviour {
 	}
 
 	public void Move(float v, float h){
-		v = v < 0 ? 0 : v;
-	
+
 		Vector3 myForward = transform.forward;
 		Vector3 myRight = transform.right;
 
@@ -103,12 +103,13 @@ public abstract class MovementController : MonoBehaviour {
 		float forwardAmount = Vector3.Dot (move, myForward); 
 		float hProj = Vector3.Dot (move, myRight);
 		float turnAmount = amount (Vector3.Angle (myForward, move), hProj, forwardAmount);
-
+	
 		animate (forwardAmount, turnAmount);
 
-		transform.position += myForward * forwardAmount * runMultiplier;
-		float rotationAngle = turnAmount * Time.deltaTime * turnMultiplier; 
+		transform.position += (v < 0 ) ? new Vector3(0,0,0) : myForward * forwardAmount * runMultiplier;
+		float rotationAngle = turnAmount * Time.deltaTime * (isGrounded() ? turnMultiplier : turnAirMultiplier); 
 		transform.RotateAround (this.transform.position, N, rotationAngle);
+
 	}
 
 

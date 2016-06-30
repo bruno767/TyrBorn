@@ -44,18 +44,8 @@ public class SimpleController : MovementController {
 		if(jump) Jump ();
 		Move (v,h);
 
+		//m_CharacterModel.transform.rotation = Quaternion.LookRotation (transform.forward, N);
 
-
-
-		/* 
-		m_CharacterModel.transform.rotation = Quaternion.LookRotation (myForward, N);
-
-		if (forwardAmount > 0.5f && (m_isGrounded && !jump)) {
-			m_CharacterModel.transform.RotateAround (m_CharacterModel.transform.position, m_CharacterModel.transform.right, 30);
-		}
-		*/
-		//if(h != 0 || v != 0)
-		//	transform.rotation = Quaternion.LookRotation(move, N);
 
 	}
 
