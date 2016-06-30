@@ -159,7 +159,7 @@ public class SimpleController : MonoBehaviour {
 		RaycastHit hitInfo;
 		#if UNITY_EDITOR
 		// helper to visualise the ground check ray in the scene view
-		Debug.DrawLine(transform.position + (N * 0.1f), transform.position + (N * 0.1f) + (-N * 0.5f));
+		Debug.DrawLine(transform.position + (N * 0.1f), transform.position + (N * 0.1f) + (-N * 0.5f), Color.red);
 		#endif
 		// 0.1f is a small offset to start the ray from inside the character
 		// it is also good to note that the transform position in the sample assets is at the base of the character
