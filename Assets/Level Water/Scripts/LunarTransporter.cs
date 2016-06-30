@@ -12,7 +12,7 @@ public class LunarTransporter : Transporter {
 	private PlayerController m_PlayerController;
 	Renderer m_renderer;
 
-	private static int m_numberOfRays = 10;
+	private static int m_numberOfRays = 8;
 
 	void Start(){
 		base.Start();

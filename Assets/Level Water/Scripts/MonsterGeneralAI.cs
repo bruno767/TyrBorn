@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MonsterAI : MonoBehaviour {
+public class MonsterGeneralAI : MovementController {
+
 	private GameObject Player;
 	private bool goBack;
 
@@ -19,6 +20,7 @@ public class MonsterAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		base.Start ();
 
 		Player = GameObject.Find ("main_caracter");
 		anim = GetComponent<Animator> ();
@@ -30,8 +32,19 @@ public class MonsterAI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		base.Update ();
 
-		checkDieStatus ();
+		Vector3 goal = (Player.transform.position - transform.position).normalized;
+		Debug.DrawRay (transform.position, goal);
+		Debug.DrawRay (transform.position, Vector3.Project (goal, transform.right), Color.red);
+		Debug.DrawRay (transform.position, Vector3.Project (goal, transform.forward), Color.green);
+
+		float h = Vector3.Project (goal, transform.right).magnitude;
+		float v = Vector3.Project (goal, transform.forward).magnitude;
+
+		Move (v, h);
+
+	/*	checkDieStatus ();
 
 		if (distance (transform.position, initialPosition) > 40) {
 			goBack = true;
@@ -75,7 +88,6 @@ public class MonsterAI : MonoBehaviour {
 			} else {
 				anim.SetBool ("sawEnemy", true);
 				anim.SetBool ("attackProximity", false);
-
 				var rotation = Quaternion.LookRotation (targetDirection);
 
 				transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime*5); 
@@ -86,10 +98,10 @@ public class MonsterAI : MonoBehaviour {
 			anim.SetBool ("sawEnemy", false);
 			anim.SetBool ("attackProximity", false);
 			anim.SetBool ("walk", false);
-		}
+		}*/
 	}
 
-	// Calculate distance between NPC and Tim
+	/*// Calculate distance between NPC and Tim
 	float distance(Vector3 currentPos, Vector3 target){
 
 		return Mathf.Sqrt (Mathf.Pow(target.x - currentPos.x,2) + Mathf.Pow(target.y - currentPos.y,2) + Mathf.Pow(target.z - currentPos.z,2));
@@ -122,5 +134,9 @@ public class MonsterAI : MonoBehaviour {
 		if (col.gameObject.name == "sword_epic") {
 			health -= 51;
 		}
+	}*/
+
+	public override void animate(float forwardAmount, float turnAmount){
+		
 	}
 }

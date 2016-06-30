@@ -24,12 +24,11 @@ public class RayPickupScript : MonoBehaviour {
 
 
 	void OnTriggerEnter(Collider other) {
-		Debug.Log ("here");
-		if (other.gameObject.transform.parent.gameObject.tag == "Player") {
+		if (isOn && other.gameObject.transform.parent.gameObject.tag == "Player") {
 			setOn (false);
 			catchTime = Time.fixedTime;
 
-			++m_player.m_raysCounter;
+			m_player.m_raysCounter += 1;
 			AudioSource source = GetComponentInParent<AudioSource>();
 			if (source != null)
 			{
