@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using System;
 
 public class CheatWaterLvl : MonoBehaviour {
@@ -95,8 +96,16 @@ public class CheatWaterLvl : MonoBehaviour {
 					int life = Int32.Parse (args [1]);
 					player.GetComponent<PlayerController> ().health = life;
 					break;
-				
-		}
+            case "lwater":
+                SceneManager.LoadScene("WaterLevel");
+                break;
+            case "learth":
+                SceneManager.LoadScene("EarthLevel");
+                break;
+            case "lend":
+                SceneManager.LoadScene("Low_poly_Level");
+                break;
+        }
 	
 	}
 }
