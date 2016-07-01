@@ -9,6 +9,6 @@ public class EvilSoundScript : MonoBehaviour {
     void Awake () {
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = evilSound;
-        audioSource.PlayDelayed(5f);
+        audioSource.PlayDelayed(1f);
     }
 }
